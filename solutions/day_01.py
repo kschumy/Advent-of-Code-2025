@@ -44,6 +44,7 @@ for line in lines:
     direction = line[0]
     amount = int(line[1:])
     
+    passed_zero_count += amount // ROTATION_AMOUNT
     amount %= ROTATION_AMOUNT
     # print(f"{line}\t{amount}")
     if amount == 0:
@@ -53,7 +54,8 @@ for line in lines:
             # print(f"{line}\t{amount}\t{curr_num}")
             curr_num -= amount
         else:
-            # passed_zero_count += 1
+            if curr_num != 0:
+                passed_zero_count += 1
             beyond_zero = amount - curr_num
             curr_num = MAX_NUM - beyond_zero + 1
             if curr_num > MAX_NUM:
@@ -62,12 +64,13 @@ for line in lines:
         if curr_num + amount <= MAX_NUM:
             curr_num += amount
         else:
-            # passed_zero_count += 1
+            if curr_num != 0:
+                passed_zero_count += 1
             beyond_zero = curr_num + amount
             # print(beyond_zero)
             curr_num = (MAX_NUM - beyond_zero + 1) * -1
-    if curr_num == 0:
-        passed_zero_count += 1
+    # if curr_num == 0:
+    #     passed_zero_count += 1
     print(f"--- \t{line}\t{curr_num}\t{passed_zero_count}")
 
 print(f"\n-----\n{passed_zero_count}\n")

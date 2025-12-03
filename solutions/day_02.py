@@ -31,8 +31,8 @@ INPUT_FILENAME = "day_02_example.txt"
 # 222220-222224   ---> one invalid ID, 222222
 # 1698522-1698528   ---> NONE (both equal and odd length)
 # 446443-446449   ---> one invalid ID, 446446
-# 38593856-385938625   ---> one invalid ID, 38593859
-# 65653-565659   ---> NONE
+# 38593856-38593862   ---> one invalid ID, 38593859
+# 565653-565659   ---> NONE
 # 824824821-824824827   ---> NONE
 # 2121212118-2121212124   ---> NONE
 

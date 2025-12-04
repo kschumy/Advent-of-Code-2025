@@ -1,10 +1,8 @@
-from utils.print_results import PrintResults
+from utils.advent_day import AdventDay
 from utils.process_input import split_lines
 
-DAY = "2"
-INPUT_FILENAME = f"day_{str(DAY).zfill(2)}.txt"
-PART_ONE_EXPECTED_ANSWER = 38158151648
-PART_TWO_EXPECTED_ANSWER = 45283684555
+DAY_NUMBER = 2
+IS_EXAMPLE = False # set to False for real input, or True for example input
 
 def is_invalid_number(s: str, is_part_one: bool) -> bool:
     section_lens = []
@@ -41,7 +39,8 @@ def find_sum_of_valid_numbers(arr, is_part_one: bool) -> int:
 
 
 if __name__ == "__main__":
-    input = split_lines(INPUT_FILENAME).pop()
+    advent_day = AdventDay(DAY_NUMBER, IS_EXAMPLE)
+    input = split_lines(advent_day.get_filename()).pop()
     part_one_arr = []
     part_two_arr = []
     for n in input:
@@ -50,10 +49,7 @@ if __name__ == "__main__":
             part_one_arr.append(ranges)
         part_two_arr.append(ranges)
 
-    results = [
-        ("ONE", PART_ONE_EXPECTED_ANSWER, find_sum_of_valid_numbers(part_one_arr, True)),
-        ("TWO", PART_TWO_EXPECTED_ANSWER, find_sum_of_valid_numbers(part_two_arr, False)),
-    ]
-    for result in results:
-        part, expected, actual = result
-        PrintResults.print_result(DAY, part, expected, actual)
+    advent_day.print_both_results(
+        find_sum_of_valid_numbers(part_one_arr, True),
+        find_sum_of_valid_numbers(part_two_arr, False)
+    )

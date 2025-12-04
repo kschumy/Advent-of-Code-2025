@@ -1,10 +1,8 @@
-from utils.print_results import PrintResults
+from utils.advent_day import AdventDay
 from utils.process_input import read_lines
 
-DAY = "1"
-INPUT_FILENAME = f"day_{str(DAY).zfill(2)}.txt"
-PART_ONE_EXPECTED_ANSWER = 1048
-PART_TWO_EXPECTED_ANSWER = 6498
+DAY_NUMBER = 1
+IS_EXAMPLE = False # set to False for real input, or True for example input
 
 LEFT = "L"
 MAX_NUM = 99
@@ -38,13 +36,7 @@ def process_moves(lines) -> tuple[int, int]:
     return (is_zero_count, passed_zero_count)
 
 if __name__ == "__main__":
-    lines = read_lines(INPUT_FILENAME)
+    advent_day = AdventDay(DAY_NUMBER, IS_EXAMPLE)
+    lines = read_lines(advent_day.get_filename())
     part1, part2 = process_moves(lines)
-
-    results = [
-        ("ONE", PART_ONE_EXPECTED_ANSWER, part1),
-        ("TWO", PART_TWO_EXPECTED_ANSWER, part2),
-    ]
-    for result in results:
-        part, expected, actual = result
-        PrintResults.print_result(DAY, part, expected, actual)
+    advent_day.print_both_results(part1, part2)

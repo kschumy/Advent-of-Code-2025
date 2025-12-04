@@ -11,9 +11,9 @@ def is_invalid_number(s: str, is_part_one: bool) -> bool:
             return False
         section_lens.append(len(s) // 2)
     else:
-        for L in range(1, len(s)//2 + 1):
-            if len(s) % L == 0:
-                section_lens.append(L)
+        for l in range(1, len(s)//2 + 1):
+            if len(s) % l == 0:
+                section_lens.append(l)
     
     for section_len in section_lens:
         is_invalid_number = True

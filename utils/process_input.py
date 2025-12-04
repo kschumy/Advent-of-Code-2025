@@ -4,13 +4,26 @@ from utils.part import Part
 ANSWERS_DIR = "answers"
 INPUT_DIR = "input"
 
+# Day 01, 03
 def read_lines(input_filename: str) -> list[str]:
     data_file = _read_raw_input(input_filename)
     return [line for line in data_file.splitlines() if line.strip()]
 
+# Day 02
 def split_lines(input_filename: str, delimiter: str = ",") -> list[list[str]]:
     data_file = _read_raw_input(input_filename)
     return [line.split(delimiter) for line in data_file.splitlines() if line.strip()]
+
+# Day 04
+def read_lines_to_matrix_with_borders(input_filename: str, border_char: str = ".") -> list[list[str]]:
+    data_file_lines = _read_raw_input(input_filename).splitlines()
+    arr = []
+    arr.append([border_char] * (len(data_file_lines[0]) + 2)) # top border, one extra char for left and right
+    for line in data_file_lines:
+        if line.strip():
+            arr.append([border_char] + [ch for ch in line] + [border_char]) # one extra char for left and right
+    arr.append([border_char] * (len(data_file_lines[0]) + 2)) # bottom border
+    return arr
 
 def get_expected_answer(input_filename: str, part: Part) -> str:
     answers = get_expected_answers(input_filename)

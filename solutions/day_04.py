@@ -1,7 +1,5 @@
-
 from utils.advent_day import AdventDay
 from utils.process_input import read_lines_to_matrix_with_borders
-
 
 DAY_NUMBER = 4
 IS_EXAMPLE = True # set to False for real input, or True for example input

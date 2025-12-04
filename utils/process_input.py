@@ -11,26 +11,12 @@ def split_lines(input_filename: str, delimiter: str = ",") -> list[list[str]]:
     return [line.split(delimiter) for line in data_file.splitlines() if line.strip()]
 
 # Day 04
-def read_lines_to_matrix_with_borders(
-    input_filename: str,
-    border_len: int = 1,
-    border_char: str = ".",
-) -> list[list[str]]:
+def read_lines_to_matrix_with_borders(input_filename: str, border_char: str = ".") -> list[list[str]]:
     lines = read_input(input_filename).splitlines()
-    border_row = [border_char] * (len(lines[0]) + 2 * border_len)
-    padding = [border_char] * border_len
+    border_row = [border_char] * (len(lines[0]) + 2)
     arr = []
-
-    # top border
-    for _ in range(border_len):
-        arr.append(border_row.copy())
-
-    # middle rows with border on sides
+    arr.append(border_row.copy()) # top border
     for line in lines:
-        arr.append(padding + list(line) + padding)
-
-    # bottom border
-    for _ in range(border_len):
-        arr.append(border_row.copy())
-
+        arr.append([border_char] + list(line) + [border_char]) # middle rows with border on each side
+    arr.append(border_row.copy()) # bottom border
     return arr

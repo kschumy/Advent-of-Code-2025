@@ -4,7 +4,7 @@ from utils.process_input import read_lines_to_matrix_with_borders
 
 
 DAY_NUMBER = 4
-IS_EXAMPLE = False # set to False for real input, or True for example input
+IS_EXAMPLE = True # set to False for real input, or True for example input
 
 PAPER_CHAR = "@"
 NON_PAPER_CHAR = "."
@@ -12,7 +12,7 @@ NON_PAPER_CHAR = "."
 day = AdventDay(DAY_NUMBER, IS_EXAMPLE)
 # IMPORTANT: matrix has borders around it to simplify edge handling.
 # There is one extra row at both the top and bottom, and one extra column on each side.
-matrix = read_lines_to_matrix_with_borders(day.filename, NON_PAPER_CHAR)
+matrix = read_lines_to_matrix_with_borders(day.filename, 1, NON_PAPER_CHAR)
 
 paper_count = 0
 while True:

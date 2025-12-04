@@ -21,11 +21,11 @@ def get_paper_count(matrix: list[list[str]], is_part_one: bool) -> int:
                 for row_offset in (-1, 0, 1):
                     adjacent_paper_count += sum(matrix[row + row_offset][col + n] == PAPER_CHAR for n in (-1, 0, 1))
                 adjacent_paper_count -= 1 # subtract self
-
                 if adjacent_paper_count < 4:
                     to_remove.append((row, col))
         paper_count += len(to_remove)
-        # if part one, only one iteration is needed and must break before modifying matrix below
+        # If part one, only one iteration is needed and must break before modifying matrix below.
+        # Modifying the matrix would lead to incorrect results for part two, as it reuses the same matrix.
         if not to_remove or is_part_one:
             break
         for row, col in to_remove:
@@ -34,7 +34,7 @@ def get_paper_count(matrix: list[list[str]], is_part_one: bool) -> int:
 
 if __name__ == "__main__":
     advent_day = AdventDay(DAY_NUMBER, IS_EXAMPLE)
-    matrix = read_lines_to_matrix_with_borders(advent_day.filename, 1, NON_PAPER_CHAR)
+    matrix = read_lines_to_matrix_with_borders(advent_day.filename, NON_PAPER_CHAR)
     advent_day.print_both_results(
         get_paper_count(matrix, True),
         get_paper_count(matrix, False),

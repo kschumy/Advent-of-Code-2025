@@ -15,14 +15,28 @@ def split_lines(input_filename: str, delimiter: str = ",") -> list[list[str]]:
     return [line.split(delimiter) for line in data_file.splitlines() if line.strip()]
 
 # Day 04
-def read_lines_to_matrix_with_borders(input_filename: str, border_char: str = ".") -> list[list[str]]:
-    data_file_lines = _read_raw_input(input_filename).splitlines()
+def read_lines_to_matrix_with_borders(
+    input_filename: str,
+    border_len: int = 1,
+    border_char: str = ".",
+) -> list[list[str]]:
+    lines = _read_raw_input(input_filename).splitlines()
+    border_row = [border_char] * (len(lines[0]) + 2 * border_len)
+    padding = [border_char] * border_len
     arr = []
-    arr.append([border_char] * (len(data_file_lines[0]) + 2)) # top border, one extra char for left and right
-    for line in data_file_lines:
-        if line.strip():
-            arr.append([border_char] + [ch for ch in line] + [border_char]) # one extra char for left and right
-    arr.append([border_char] * (len(data_file_lines[0]) + 2)) # bottom border
+
+    # top border
+    for _ in range(border_len):
+        arr.append(border_row.copy())
+
+    # middle rows with border on sides
+    for line in lines:
+        arr.append(padding + list(line) + padding)
+
+    # bottom border
+    for _ in range(border_len):
+        arr.append(border_row.copy())
+
     return arr
 
 def get_expected_answer(input_filename: str, part: Part) -> str:

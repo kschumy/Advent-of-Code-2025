@@ -1,6 +1,9 @@
+from utils.print_results import PrintResults
 from utils.process_input import read_lines
 
-INPUT_FILENAME = "day_03.txt"
+
+DAY = "3"
+INPUT_FILENAME = f"day_{str(DAY).zfill(2)}.txt"
 PART_ONE_EXPECTED_ANSWER = 17324
 PART_TWO_EXPECTED_ANSWER = 171846613143331
 
@@ -26,13 +29,9 @@ def get_total_voltage(lines, digit_span):
 if __name__ == "__main__":
     lines = read_lines(INPUT_FILENAME)
     results = [
-        ("ONE", PART_ONE_EXPECTED_ANSWER, get_total_voltage(lines, PART_ONE_DIGIT_SPAN)),
-        ("TWO", PART_TWO_EXPECTED_ANSWER, get_total_voltage(lines, PART_TWO_DIGIT_SPAN)),
+        ("1", PART_ONE_EXPECTED_ANSWER, get_total_voltage(lines, PART_ONE_DIGIT_SPAN)),
+        ("2", PART_TWO_EXPECTED_ANSWER, get_total_voltage(lines, PART_TWO_DIGIT_SPAN)),
     ]
-    for name, expected, actual in results:
-        print(
-            f"PART {name} ANSWER:\n"
-            f"\tExpected: {expected}\n"
-            f"\tActual:   {actual}\n"
-            f"\tIs Correct: {expected == actual}\n"
-        )
+    for result in results:
+        part, expected, actual = result
+        PrintResults.print_result(DAY, part, expected, actual)

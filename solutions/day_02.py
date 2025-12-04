@@ -1,6 +1,8 @@
+from utils.print_results import PrintResults
 from utils.process_input import split_lines
 
-INPUT_FILENAME = "day_02.txt"
+DAY = "2"
+INPUT_FILENAME = f"day_{str(DAY).zfill(2)}.txt"
 PART_ONE_EXPECTED_ANSWER = 38158151648
 PART_TWO_EXPECTED_ANSWER = 45283684555
 
@@ -52,10 +54,6 @@ if __name__ == "__main__":
         ("ONE", PART_ONE_EXPECTED_ANSWER, find_sum_of_valid_numbers(part_one_arr, True)),
         ("TWO", PART_TWO_EXPECTED_ANSWER, find_sum_of_valid_numbers(part_two_arr, False)),
     ]
-    for name, expected, actual in results:
-        print(
-            f"PART {name} ANSWER:\n"
-            f"\tExpected: {expected}\n"
-            f"\tActual:   {actual}\n"
-            f"\tIs Correct: {expected == actual}\n"
-        )
+    for result in results:
+        part, expected, actual = result
+        PrintResults.print_result(DAY, part, expected, actual)

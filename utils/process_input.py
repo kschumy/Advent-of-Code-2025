@@ -44,4 +44,15 @@ def day_06_read_input(input_filename: str):# -> list[int]:
     return numbers, operations
     # print(data_file)
     # return [line.split() for line in data_file.splitlines() if line.strip()]
+
+    # Day 06 part 2
+def day_06_read_input_part_2(input_filename: str):# -> list[int]:
+    data_file = read_input(input_filename)
+    data_lines = data_file.splitlines()
+    return data_lines
+    # operations = data_lines.pop().split()
+    # numbers = []
+    # for line in data_lines:
+    #     numbers.append(list(map(int, line.split())))
+    # return numbers, operations
     

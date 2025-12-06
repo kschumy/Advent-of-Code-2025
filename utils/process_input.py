@@ -22,14 +22,13 @@ def read_lines_to_matrix_with_borders(input_filename: str, border_char: str = ".
     return arr
 
 # Day 05
-def read_input_with_ranges_and_integers(input_filename: str) -> tuple[list[list[int, int]], list[int]]:
-    lines = read_input(input_filename).splitlines()
-    end_line_index = lines.index('')
+def read_input_with_ranges_and_integers(input_filename: str) -> tuple[list[list[int]], list[int]]:
+    ranges_lines, values_lines = read_input(input_filename).strip().split('\n\n', 1)
     ranges = []
-    for i in range(0, end_line_index):
-        range_str = lines[i].split("-")
-        ranges.append([int(range_str[0]), int(range_str[1])])
+    for line in ranges_lines.splitlines():
+        start_str, end_str = line.split("-")
+        ranges.append([int(start_str), int(end_str)])
     values = []
-    for i in range(end_line_index + 1, len(lines)):
-        values.append(int(lines[i]))
+    for line in values_lines.splitlines():
+        values.append(int(line))
     return ranges, values

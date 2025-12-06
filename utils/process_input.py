@@ -32,3 +32,16 @@ def read_input_with_ranges_and_integers(input_filename: str) -> tuple[list[list[
     for line in values_lines.splitlines():
         values.append(int(line))
     return ranges, values
+
+# Day 06
+def day_06_read_input(input_filename: str):# -> list[int]:
+    data_file = read_input(input_filename)
+    data_lines = data_file.splitlines()
+    operations = data_lines.pop().split()
+    numbers = []
+    for line in data_lines:
+        numbers.append(list(map(int, line.split())))
+    return numbers, operations
+    # print(data_file)
+    # return [line.split() for line in data_file.splitlines() if line.strip()]
+    

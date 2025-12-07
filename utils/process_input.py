@@ -10,6 +10,11 @@ def split_lines(input_filename: str, delimiter: str = ",") -> list[list[str]]:
     data_file = read_input(input_filename)
     return [line.split(delimiter) for line in data_file.splitlines() if line.strip()]
 
+# Day 07
+def read_lines_to_matrix(input_filename: str) -> list[list[str]]:
+    lines = read_input(input_filename).splitlines()
+    return [list(line) for line in lines]
+
 # Day 04
 def read_lines_to_matrix_with_borders(input_filename: str, border_char: str = ".") -> list[list[str]]:
     lines = read_input(input_filename).splitlines()

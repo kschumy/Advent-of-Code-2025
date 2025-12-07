@@ -49,6 +49,7 @@ def day_06_read_input(input_filename: str):# -> list[int]:
 def day_06_read_input_part_2(input_filename: str):# -> list[int]:
     data_file = read_input(input_filename)
     data_lines = data_file.splitlines()
+    data_lines.pop() # remove operations line
     return data_lines
     # operations = data_lines.pop().split()
     # numbers = []

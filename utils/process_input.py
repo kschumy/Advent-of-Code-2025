@@ -31,29 +31,17 @@ def read_input_with_ranges_and_integers(input_filename: str) -> tuple[list[list[
     values = []
     for line in values_lines.splitlines():
         values.append(int(line))
-    return ranges, values
+    return (ranges, values)
 
-# Day 06
-def day_06_read_input(input_filename: str):# -> list[int]:
-    data_file = read_input(input_filename)
-    data_lines = data_file.splitlines()
-    operations = data_lines.pop().split()
-    numbers = []
-    for line in data_lines:
-        numbers.append(list(map(int, line.split())))
-    return numbers, operations
-    # print(data_file)
-    # return [line.split() for line in data_file.splitlines() if line.strip()]
+# Day 06 - part 1
+# All lines except last line contain space-separated integers
+# Last line contains space-separated strings
+def read_lines_with_numbers_and_strings(input_filename: str) -> tuple[list[list[int]], list[str]]:
+    data_lines = read_input(input_filename).splitlines()
+    strs = data_lines.pop().split()
+    numbers = [list(map(int, line.split())) for line in data_lines]
+    return (numbers, strs)
 
-    # Day 06 part 2
-def day_06_read_input_part_2(input_filename: str):# -> list[int]:
-    data_file = read_input(input_filename)
-    data_lines = data_file.splitlines()
-    data_lines.pop() # remove operations line
-    return data_lines
-    # operations = data_lines.pop().split()
-    # numbers = []
-    # for line in data_lines:
-    #     numbers.append(list(map(int, line.split())))
-    # return numbers, operations
-    
+# Day 06 - part 2
+def read_lines_with_last_line_removed(input_filename: str) -> list[str]:
+    return read_input(input_filename).splitlines()[:-1]

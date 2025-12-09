@@ -1,5 +1,5 @@
 from collections import defaultdict
-import math
+from math import dist
 from utils.advent_day import AdventDay
 from utils.process_input import split_lines_to_ints
 from utils.union_find import UnionFind
@@ -18,8 +18,8 @@ positions = split_lines_to_ints(advent_day.filename)
 edges = []
 for i in range(len(positions)):
     for j in range(i + 1, len(positions)):
-        dist = math.dist(positions[i], positions[j])
-        edges.append((dist, i, j))
+        distance = dist(positions[i], positions[j])
+        edges.append((distance, i, j))
 edges.sort()
 # print(edges)
 
@@ -28,12 +28,70 @@ for k in range(NUM_OF_CONNECTIONS):
     _, pos_1, pos_2 = edges[k]
     uf.union(pos_1, pos_2)
 
-curcuits = defaultdict(int)
-for l in range(len(positions)):
-    root = uf.find(l)
-    curcuits[root] += 1
 
-sizes = sorted(curcuits.values(), reverse=True)
-print(sizes[0] * sizes[1] * sizes[2])
+last_pos_1 = None
+last_pos_2 = None
+for k in range(len(edges)):
+    _, pos_1, pos_2 = edges[k]
+    uf.union(pos_1, pos_2)
 
-print(42840)
+    last_pos_1 = pos_1
+    last_pos_2 = pos_2
+
+    root = uf.find(0)
+    is_all_unified = True
+    for i in range(len(positions)):
+        if uf.find(i) != root:
+            is_all_unified = False
+            break
+    
+    if is_all_unified:
+        break 
+
+print(positions[last_pos_1][0] * positions[last_pos_2][0])
+
+# print(last_pos_1 * last_pos_2)
+# print(25272)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+# ## PART 1 ###
+# edges = []
+# for i in range(len(positions)):
+#     for j in range(i + 1, len(positions)):
+#         dist = math.dist(positions[i], positions[j])
+#         edges.append((dist, i, j))
+# edges.sort()
+# # print(edges)
+
+# uf = UnionFind(len(positions))
+# for k in range(NUM_OF_CONNECTIONS):
+#     _, pos_1, pos_2 = edges[k]
+#     uf.union(pos_1, pos_2)
+
+#     curcuits = defaultdict(int)
+#     for l in range(len(positions)):
+#         root = uf.find(l)
+#         curcuits[root] += 1
+
+# sizes = sorted(curcuits.values(), reverse=True)
+# print(sizes[0] * sizes[1] * sizes[2])
+
+# print(42840)

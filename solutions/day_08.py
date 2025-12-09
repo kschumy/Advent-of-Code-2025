@@ -1,5 +1,5 @@
 from collections import defaultdict
-from math import dist
+from math import dist, prod
 from utils.advent_day import AdventDay
 from utils.process_input import split_lines_to_ints
 from utils.union_find import UnionFind
@@ -9,89 +9,58 @@ IS_EXAMPLE = False # set to False for real input, or True for example input
 
 NUM_OF_CONNECTIONS = 10 if IS_EXAMPLE else 1000 # from problem statement
 
-advent_day = AdventDay(DAY_NUMBER, IS_EXAMPLE)
-
-
-positions = split_lines_to_ints(advent_day.filename)
-# print(positions)
-
-edges = []
-for i in range(len(positions)):
-    for j in range(i + 1, len(positions)):
-        distance = dist(positions[i], positions[j])
-        edges.append((distance, i, j))
-edges.sort()
-# print(edges)
-
-uf = UnionFind(len(positions))
-for k in range(NUM_OF_CONNECTIONS):
-    _, pos_1, pos_2 = edges[k]
-    uf.union(pos_1, pos_2)
-
-
-last_pos_1 = None
-last_pos_2 = None
-for k in range(len(edges)):
-    _, pos_1, pos_2 = edges[k]
-    uf.union(pos_1, pos_2)
-
-    last_pos_1 = pos_1
-    last_pos_2 = pos_2
-
-    root = uf.find(0)
-    is_all_unified = True
+def get_edges(positions):
+    edges = []
     for i in range(len(positions)):
-        if uf.find(i) != root:
-            is_all_unified = False
-            break
-    
-    if is_all_unified:
-        break 
+        for j in range(i + 1, len(positions)):
+            distance = dist(positions[i], positions[j])
+            edges.append((distance, i, j))
+    edges.sort()
+    return edges
 
-print(positions[last_pos_1][0] * positions[last_pos_2][0])
+# PART 1
+def three_largest_circuit_sizes(positions, edges):
+    uf = UnionFind(len(positions))
+    for i in range(NUM_OF_CONNECTIONS):
+        _, pos_1, pos_2 = edges[i]
+        uf.union(pos_1, pos_2)
+        
+        circuits = defaultdict(int)
+        for j in range(len(positions)):
+            root = uf.find(j)
+            circuits[root] += 1
 
-# print(last_pos_1 * last_pos_2)
-# print(25272)
-
-
-
-
-
-
-
-
-
-
+    return prod(sorted(circuits.values())[-3:])
 
 
+# PART 2
+def get_distance_from_wall(positions, edges):
+    uf = UnionFind(len(positions))
+    for k in range(NUM_OF_CONNECTIONS):
+        _, pos_1, pos_2 = edges[k]
+        uf.union(pos_1, pos_2)
+
+    for k in range(len(edges)):
+        _, pos_1, pos_2 = edges[k]
+        uf.union(pos_1, pos_2)
+
+        root = uf.find(0)
+        is_all_unified = True
+        for i in range(len(positions)):
+            if uf.find(i) != root:
+                is_all_unified = False
+                break
+        
+        if is_all_unified:
+            return positions[pos_1][0] * positions[pos_2][0]
 
 
 
-
-
-
-
-
-# ## PART 1 ###
-# edges = []
-# for i in range(len(positions)):
-#     for j in range(i + 1, len(positions)):
-#         dist = math.dist(positions[i], positions[j])
-#         edges.append((dist, i, j))
-# edges.sort()
-# # print(edges)
-
-# uf = UnionFind(len(positions))
-# for k in range(NUM_OF_CONNECTIONS):
-#     _, pos_1, pos_2 = edges[k]
-#     uf.union(pos_1, pos_2)
-
-#     curcuits = defaultdict(int)
-#     for l in range(len(positions)):
-#         root = uf.find(l)
-#         curcuits[root] += 1
-
-# sizes = sorted(curcuits.values(), reverse=True)
-# print(sizes[0] * sizes[1] * sizes[2])
-
-# print(42840)
+if __name__ == "__main__":
+    advent_day = AdventDay(DAY_NUMBER, IS_EXAMPLE)
+    positions = split_lines_to_ints(advent_day.filename)
+    edges = get_edges(positions)
+    advent_day.print_both_results(
+        three_largest_circuit_sizes(positions, edges),
+        get_distance_from_wall(positions, edges),
+    )

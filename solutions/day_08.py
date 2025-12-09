@@ -1,5 +1,6 @@
 from collections import defaultdict
 from math import dist, prod
+
 from utils.advent_day import AdventDay
 from utils.process_input import split_lines_to_ints
 from utils.union_find import UnionFind
@@ -22,45 +23,31 @@ def get_edges(positions):
 def three_largest_circuit_sizes(positions, edges):
     uf = UnionFind(len(positions))
     for i in range(NUM_OF_CONNECTIONS):
-        _, pos_1, pos_2 = edges[i]
-        uf.union(pos_1, pos_2)
-        
-        circuits = defaultdict(int)
-        for j in range(len(positions)):
-            root = uf.find(j)
-            circuits[root] += 1
+        _, idx_1, idx_2 = edges[i]
+        uf.union(idx_1, idx_2)
 
-    return prod(sorted(circuits.values())[-3:])
+    circuits = defaultdict(int)
+    for j in range(len(positions)):
+        root = uf.find(j)
+        circuits[root] += 1
+    
+    return prod(sorted(circuits.values(), reverse=True)[:3])
 
 
 # PART 2
 def get_distance_from_wall(positions, edges):
     uf = UnionFind(len(positions))
-    for k in range(NUM_OF_CONNECTIONS):
-        _, pos_1, pos_2 = edges[k]
-        uf.union(pos_1, pos_2)
-
-    for k in range(len(edges)):
-        _, pos_1, pos_2 = edges[k]
-        uf.union(pos_1, pos_2)
-
-        root = uf.find(0)
-        is_all_unified = True
-        for i in range(len(positions)):
-            if uf.find(i) != root:
-                is_all_unified = False
-                break
-        
-        if is_all_unified:
-            return positions[pos_1][0] * positions[pos_2][0]
-
-
+    for _, idx_1, idx_2 in edges:
+        uf.union(idx_1, idx_2)
+        if uf.is_unified():
+            return positions[idx_1][0] * positions[idx_2][0]
 
 if __name__ == "__main__":
     advent_day = AdventDay(DAY_NUMBER, IS_EXAMPLE)
     positions = split_lines_to_ints(advent_day.filename)
     edges = get_edges(positions)
+   
     advent_day.print_both_results(
-        three_largest_circuit_sizes(positions, edges),
-        get_distance_from_wall(positions, edges),
+        three_largest_circuit_sizes(positions, edges), # PART 1
+        get_distance_from_wall(positions, edges), # PART 2
     )

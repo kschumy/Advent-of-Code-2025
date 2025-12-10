@@ -1,72 +1,46 @@
-from pathlib import Path
-
+# I hate the solution for part 2. I had wanted to stick to the standard library for all
+# solutions. Part 2 of this problem is intentionally tricky, but Shapely makes it 
+# extremely easy, which defeats the purpose of the challenge.
+#
+# I needed to complete this problem within the time limit, and the solution I was pursuing
+# (ray casting algorithm) was taking too long to implement, as I was unfamiliar with it 
+# before attempting this problem. So, I had to resort to using Shapely at this time.
+# After the Advent of Code challenge is done, I will revisit this problem and try to 
+# implement a solution (again, probably ray casting) without Shapely.
 from shapely import Polygon, box
+
 from utils.advent_day import AdventDay
 from utils.process_input import split_lines_to_ints
 
-
 DAY_NUMBER = 9
-IS_EXAMPLE = False # set to False for real input, or True for example input
+IS_EXAMPLE = False
 
-advent_day = AdventDay(DAY_NUMBER, IS_EXAMPLE)
+def find_areas(red_tiles: list[tuple[int, int]]):
+    filled_shape = Polygon(red_tiles)
+    max_area = 0 # part 1
+    max_area_inside_shape = 0 # part 2
 
-lines = split_lines_to_ints(advent_day.filename)
+    for i in range(len(red_tiles)):
+        x1, y1 = red_tiles[i]
+        for j in range(i + 1, len(red_tiles)):
+            x2, y2 = red_tiles[j]
 
+            min_x, max_x = min(x1, x2), max(x1, x2)
+            min_y, max_y = min(y1, y2), max(y1, y2)
 
+            area = (max_x - min_x + 1) * (max_y - min_y + 1)
+            max_area = max(max_area, area) # part 1
+            if filled_shape.contains(box(min_x, min_y, max_x, max_y)):
+                max_area_inside_shape = max(max_area_inside_shape, area) # part 2
 
-filled_shape = Polygon(lines)
-# if IS_EXAMPLE:
-#     print(filled_shape)
-max_area = 0
+    return max_area, max_area_inside_shape
 
-for i in range(len(lines)):
-    for j in range(i + 1, len(lines)):
-        x_1, y_1 = lines[i]
-        x_2, y_2 = lines[j]
+if __name__ == "__main__":
+    advent_day = AdventDay(DAY_NUMBER, IS_EXAMPLE)
+    red_tiles = split_lines_to_ints(advent_day.filename)
+    max_area, max_area_inside_shape = find_areas(red_tiles)
 
-        min_x, max_x = min(x_1, x_2), max(x_1, x_2)
-        min_y, max_y = min(y_1, y_2), max(y_1, y_2)
-        rectangle = box(min_x, min_y, max_x, max_y)
-        # if IS_EXAMPLE:
-        #     print(rectangle)
-        if filled_shape.contains(rectangle):
-            area = (abs(x_1 - x_2) + 1) * (abs(y_1 - y_2) + 1) # TODO: change parentheses for part 1 b/c of bug here w/o them
-            max_area = max(max_area, area)
-
-print(max_area)
-print(1560475800)
-
-
-
-
-# matrix = []
-# for _ in range(9):
-#     matrix.append(["."] * 14)
-
-# for x, y in lines:
-#     print(f"Marking point at ({x}, {y})")
-#     for row in matrix:
-#         print("".join(row))
-#     matrix[y][x] = "#"  
-    
-#     if x == 9 and y == 7:
-#         print("==")
-#         for row in matrix:
-#             print("".join(row))
-#     print("--------")
-
-# for row in matrix:
-#     print("".join(row))
-    
-
-# max_area = 0
-# for i in range(0, len(lines) - 1):
-#     print(lines[i])
-#     pt_a_x, pt_a_y = lines[i]
-#     for j in range(i + 1, len(lines)):
-#         pt_b_x, pt_b_y = lines[j]
-#         area = abs(pt_a_x - pt_b_x + 1) * abs(pt_a_y - pt_b_y + 1)
-#         max_area = max(max_area, area)
-# print(max_area)
-        
-
+    advent_day.print_both_results(
+        max_area, # part 1
+        max_area_inside_shape # part 2
+    )

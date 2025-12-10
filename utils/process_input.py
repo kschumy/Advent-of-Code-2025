@@ -10,7 +10,7 @@ def split_lines(input_filename: str, delimiter: str = ",") -> list[list[str]]:
     data_file = read_input(input_filename)
     return [line.split(delimiter) for line in data_file.splitlines() if line.strip()]
 
-# Day 08
+# Day 08, 09
 def split_lines_to_ints(input_filename: str, delimiter: str = ",") -> list[list[int]]:
     data_file = read_input(input_filename)
     return [list(map(int, line.split(delimiter))) for line in data_file.splitlines() if line.strip()]

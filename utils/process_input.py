@@ -1,4 +1,5 @@
 import re
+
 from utils.reader import read_input
 
 # Day 01, 03
@@ -57,26 +58,19 @@ def read_lines_with_numbers_and_strings(input_filename: str) -> tuple[list[list[
 def read_lines_with_last_line_removed(input_filename: str) -> list[str]:
     return read_input(input_filename).splitlines()[:-1]
 
-# example line: [.###.#] (0,1,2,3,4) (0,3,4) (0,1,2,4,5) (1,2) {10,11,11,5,10,5}
 # Day 10
+# Example line: [.###.#] (0,1,2,3,4) (0,3,4) (0,1,2,4,5) (1,2) {10,11,11,5,10,5}
 def read_machine_manual(input_filename: str):
     data_lines = read_input(input_filename).splitlines()
     manual = []
     for line in data_lines:
         brackets = re.search(r'\[([.#]+)\]', line).group(1)
-        print(f"brackets: {brackets}")
         
         button_matches = re.findall(r'\(([0-9,]+)\)', line)
-        print(f"button_matches: {button_matches}")
         buttons = [set(map(int, match.split(','))) for match in button_matches]
-        print(f"buttons: {buttons}")
         
-        # part 2??
         joltage_match = re.search(r'\{([0-9,]+)\}', line)
-        print(f"joltage_match: {joltage_match}")
         joltage = set(map(int, joltage_match.group(1).split(','))) if joltage_match else set()
-        print(f"joltage: {joltage}")
 
         manual.append((brackets, buttons, joltage))
-    
     return manual

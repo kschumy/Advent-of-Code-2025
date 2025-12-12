@@ -1,3 +1,4 @@
+# TODO: consolidate these after AofC is over
 import re
 
 from utils.reader import read_input
@@ -74,3 +75,8 @@ def read_machine_manual(input_filename: str):
 
         manual.append((brackets, buttons, joltage))
     return manual
+
+# Day 11
+def read_devices_input(input_filename):
+    data_lines = read_input(input_filename).splitlines()
+    return [re.split(r'[^a-z]+', line) for line in data_lines]

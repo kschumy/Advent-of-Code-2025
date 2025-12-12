@@ -19,6 +19,14 @@ class AdventDay:
         if len(results) != 2:
             raise ValueError("Expected answers file must contain exactly two lines")
         return results
+    
+    # FIXME: temp bandaid for day 11 to deal with different example input
+    def get_filename(self, only_part: Part=None):
+        if only_part:
+            only_filename, file_extension = self.filename.split(".")
+            return f"{only_filename}_part_{only_part}.{file_extension}"
+        else:
+            return self.filename
 
     def print_both_results(self, part_one_actual: int, part_two_actual: int):
         both_parts_expected = self.get_expected_answers(self.filename)
